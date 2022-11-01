@@ -6,7 +6,7 @@ function Profile() {
   const [data, setData] = useState();
   const navigate = useNavigate();
   const fetch = async () => {
-    return await axios.get("/isAuthenticate", { withCredentials: true });
+    return await axios.get("/isAuthenticate");
   };
   useEffect(() => {
     fetch().then((res) => {
