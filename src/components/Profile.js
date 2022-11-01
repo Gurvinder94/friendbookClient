@@ -6,7 +6,11 @@ function Profile() {
   const [data, setData] = useState();
   const navigate = useNavigate();
   const fetch = async () => {
-    return await axios.get("/isAuthenticate");
+    return await axios.get("/isAuthenticate", {
+      headers: {
+        Cookie: cookie_for_data,
+      },
+    });
   };
   useEffect(() => {
     fetch().then((res) => {
