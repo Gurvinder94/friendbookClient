@@ -64,7 +64,7 @@ export default function Homepage() {
             setCookie("Token", result.data.token, {
               path: "/",
               maxAge: 1800,
-              sameSite: lax,
+              domain: ".vercel.app",
             });
             navigate("/");
           }
