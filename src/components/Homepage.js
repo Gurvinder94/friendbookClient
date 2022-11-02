@@ -65,6 +65,7 @@ export default function Homepage() {
               path: "/",
               maxAge: 1800,
               sameSite: "none",
+              secure: "true",
             });
             navigate("/");
           }
