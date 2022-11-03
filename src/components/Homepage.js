@@ -61,12 +61,12 @@ export default function Homepage() {
             setOpenToast(true);
           } else if (result.status === 200) {
             console.log(result.data);
-            setCookie("Token", result.data.token, {
-              path: "/",
-              maxAge: 1800,
-              sameSite: "none",
-              secure: "true",
-            });
+            // setCookie("Token", result.data.token, {
+            //   path: "/",
+            //   maxAge: 1800,
+            //   sameSite: "none",
+            //   secure: "true",
+            // });
             navigate("/");
           }
         }
