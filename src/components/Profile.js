@@ -5,31 +5,11 @@ import axios from "../server";
 function Profile() {
   const [data, setData] = useState();
   const navigate = useNavigate();
-  const fetch1 = async () => {
-    let res = await fetch(
-      "https://friendbookserver.vercel.app/isAuthenticate",
-      {
-        method: "GET",
-        mode: "cors",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-        },
-      }
-    );
-    console.log(res);
-
-    let res2 = await res.json();
-    console.log(res2);
-    let a = { data: res2 };
-
-    return a;
-
-    // return await axios.get("/isAuthenticate", { withCredentials: true });
+  const fetch = async () => {
+    return await axios.get("/isAuthenticate", { withCredentials: true });
   };
   useEffect(() => {
-    fetch1().then((res) => {
+    fetch().then((res) => {
       console.log(res);
       if (res.data === "not logged in") {
         navigate("/login");
