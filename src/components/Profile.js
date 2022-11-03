@@ -12,6 +12,10 @@ function Profile() {
         method: "GET",
         mode: "cors",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
       }
     );
     console.log(res);
