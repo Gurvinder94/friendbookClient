@@ -63,7 +63,7 @@ export default function Login({ buttonClick }) {
         <hr />
         <Button
           onClick={(e) => {
-            buttonClick(e, "gurvinder123", "qwerty");
+            buttonClick(e, "a", "a");
             clear();
           }}
           className="login_button1"
