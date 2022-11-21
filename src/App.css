@@ -129,14 +129,18 @@ li.MuiListItem-root:nth-child(1) > div:nth-child(1) {
   margin: 1vw auto;
   border-radius: 30px;
   padding: 0px 16px;
-  box-shadow: 0px 0px 9px #8080808f;
+  box-shadow: 0px 0px 2px #8080808f;
+  transition: all 0.1s ease-in-out;
+}
+.commentForm:hover {
+  transform: scale(1.02);
 }
 .commentInput {
   width: 70%;
   height: auto;
   border-radius: 35px;
   margin: 2vw auto 0.5vw;
-  padding: 5px 15px 5px 16px;
+  padding: 14px 15px 0px 16px;
   background-color: #f0f2f5;
   border-color: transparent;
   color: rgba(0, 0, 0, 0.849);
@@ -145,18 +149,22 @@ li.MuiListItem-root:nth-child(1) > div:nth-child(1) {
   font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
 }
 .commentButton {
-  margin: 0.5vw auto;
-  width: auto;
-  height: auto;
-  border-radius: 20px;
+  width: 120px;
+  height: 40px;
+  border-radius: 25px;
   border-color: transparent;
   background-color: rgb(60, 138, 240);
   color: white;
-  font-size: 22px;
-  font-weight: 400;
+  font-weight: bold;
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
   font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
-  padding: 5px;
   cursor: pointer;
+}
+.shareCont {
+  display: flex;
+  padding: 10px;
+  gap: 40px;
+  justify-content: center;
 }
 
 .commentHead {
@@ -242,7 +250,7 @@ li.MuiListItem-root:nth-child(1) > div:nth-child(1) {
   height: auto;
 
   margin: 1vw auto 0.5vw;
-  padding: 5px 15px 5px 16px;
+  padding: 14px 15px 0px 16px;
 
   color: rgba(0, 0, 0, 0.747);
   font-size: 17px;
@@ -275,7 +283,7 @@ li.MuiListItem-root:nth-child(1) > div:nth-child(1) {
   background-color: white;
   width: 40vw;
   height: auto;
-  margin: 1vw auto;
+  margin: 1vw auto 5vw;
   border-radius: 30px;
   padding: 0px 16px;
   box-shadow: 0px 0px 9px #80808066;
@@ -291,11 +299,11 @@ li.MuiListItem-root:nth-child(1) > div:nth-child(1) {
   padding: 0px 16px;
   flex-direction: column;
   box-shadow: 0px 0px 5px #8080807a;
+  position: relative;
 }
 .profile > hr {
   color: #acadae3d;
-
-  margin: 51px auto -6px;
+  margin: 110px auto -6px;
   width: 72%;
 }
 .profileLogo {
@@ -307,7 +315,6 @@ li.MuiListItem-root:nth-child(1) > div:nth-child(1) {
   font-size: 4vw;
   font-weight: 400;
   font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
-
   box-shadow: 3px 3px 7px #00000070;
   margin: 18vh auto 3px;
   background-color: white;
@@ -329,9 +336,39 @@ li.MuiListItem-root:nth-child(1) > div:nth-child(1) {
   font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
   color: rgba(0, 0, 0, 0.767);
 }
+.input {
+  margin-left: calc(100% - 155px);
+}
+.input > input {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+}
+.input > label {
+  position: relative;
+  width: 155px;
+  height: 50px;
+  border-radius: 25px;
+  background: linear-gradient(40deg, #ff6ec4, #7873f5);
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
 .searchbox > .cursor {
   z-index: 1;
 }
+.input > input:hover + label,
+.input > input:focus + label,
+.commentButton:hover {
+  transform: scale(1.02);
+}
+
 .cursor {
   cursor: pointer;
   pointer-events: all !important;
@@ -342,6 +379,7 @@ li.MuiListItem-root:nth-child(1) > div:nth-child(1) {
   flex-grow: 4;
   align-items: end;
 }
+
 .removeIcon > svg {
   color: #ec2323;
   cursor: pointer;
@@ -618,6 +656,136 @@ li.MuiListItem-root:nth-child(1) > div:nth-child(1) {
   color: black !important;
 }
 
+/* Friend List POPup */
+.msg {
+  position: absolute;
+  background-color: #fff;
+  top: 65px;
+  right: 10px;
+  padding: 12px 16px;
+  width: 328px;
+  border-radius: 6px;
+  box-shadow: 0px 0px 8px #808080b3;
+  height: 50vh;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.msgHead {
+  color: rgba(5, 5, 5, 0.91);
+  display: flex;
+  gap: 12px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 28px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+.msgCont {
+  display: flex;
+  margin: 10px auto;
+  transition: all 0.1s ease-in-out;
+}
+.msgCont:hover {
+  background-color: #80808019;
+  border-radius: 10px;
+  padding: 3px 5px;
+}
+.msgImg > img {
+  width: 56px;
+  border-radius: 50%;
+}
+.msgMiniCont {
+  display: flex;
+  flex-direction: column;
+  padding-top: 4px;
+  margin-left: 12px;
+  text-align: left;
+}
+.msgTxtCont {
+  display: flex;
+}
+.msgName {
+  color: rgba(5, 5, 5, 0.91);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 20px;
+  margin-bottom: 3px;
+}
+.msgTxt {
+  /* color: rgb(24, 118, 242); */
+  color: rgb(101, 103, 107);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 16px;
+  width: 199px;
+  height: 17px;
+  overflow: hidden;
+}
+.time {
+  color: rgb(101, 103, 107);
+  font-size: 12px;
+  line-height: 16.0833px;
+  margin-left: 3px;
+}
+.like,
+.like2,
+.like1,
+.commentBox,
+.commentBox1,
+.commentBox2,
+.commentButton,
+.removeIcon > svg {
+  transition: all 0.1s ease-in-out;
+}
+.like:hover,
+.like2:hover,
+.commentBox:hover,
+.commentBox1:hover,
+.commentBox2:hover,
+.like:hover,
+.removeIcon > svg:hover {
+  background-color: #80808019;
+  border-radius: 10px;
+  padding: 3px 5px;
+}
+
+/* sidebar */
+.bar {
+  position: absolute;
+  top: 57px;
+  left: 10px;
+  width: 328px;
+  color: rgb(5, 5, 5);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  padding: 30px 5px;
+}
+.barHead,
+.barFriend,
+.barLogout {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.1s ease-in-out;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+}
+.barHead > img {
+  width: 32px;
+}
+
+.barFriend:hover,
+.barHead:hover,
+.barLogout:hover {
+  background-color: #e4e6e9;
+  padding: 10px;
+  border-radius: 12px;
+}
 @media only screen and (max-width: 900px) {
   .commentForm,
   .profile {

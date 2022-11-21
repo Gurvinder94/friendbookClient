@@ -1,20 +1,40 @@
 import * as React from "react";
 import Login from "./Login";
 import Register from "./Register";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import axios from "../server";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useCookies } from "react-cookie";
 
 export default function Homepage() {
   const [loginClicked, setLoginClicked] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [fetched, setFetched] = useState(true);
   const [openToast, setOpenToast] = useState(false);
   const [toastMEssage, setToastmessage] = useState("");
-  const [cookies, setCookie] = useCookies("");
+
   const navigate = useNavigate();
+
+  const fetch = async () => {
+    if (fetched) {
+      let res = await axios.get("/isAuthenticate");
+      if (res.data === "not logged in") {
+        navigate("/login");
+      } else {
+        navigate("/");
+      }
+      setFetched(false);
+    }
+  };
+
+  useEffect(() => {
+    fetch();
+  }, []);
+  if (fetched) {
+    return;
+  }
+
   const buttonClick = async (
     e,
     username = null,
@@ -60,7 +80,6 @@ export default function Homepage() {
             setToastmessage(result.data);
             setOpenToast(true);
           } else if (result.status === 200) {
-            console.log(result.data);
             navigate("/");
           }
         }
@@ -83,7 +102,7 @@ export default function Homepage() {
             .post(
               "/register",
               {
-                userName: username,
+                username,
                 password,
                 firstname,
                 lastname,

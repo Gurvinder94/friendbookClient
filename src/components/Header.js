@@ -14,9 +14,12 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import axios from "../server";
+import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
+import MessagePopup from "./MessagePopup.js";
+import SideBar from "./SideBar.js";
+import axios from "../server";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,15 +61,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar({ handleView }) {
+export default function PrimarySearchAppBar({
+  handleView,
+  firstname,
+  lastname,
+  img,
+}) {
   const [sideBar, setSideBar] = useState(true);
-  const [mobile, setMobile] = useState(false);
+  const [popup, setPopup] = useState(false);
   const [search, setSearch] = useState(false);
   const [input, setInput] = useState("");
   const navigate = useNavigate();
 
   const mqChange = (mq) => {
-    setMobile(mq.matches);
     if (mq.matches === false) {
       setSideBar(true);
     }
@@ -98,17 +105,19 @@ export default function PrimarySearchAppBar({ handleView }) {
       setSideBar(false);
     } else setSideBar(true);
   };
-  const logout = () => {
-    axios.get("/logout", { withCredentials: true }).then((result) => {
-      setSideBar(true);
-      if (result.data === "success") {
-        navigate("/login");
-      }
-    });
+  const logout = async () => {
+    await axios.get("/logout");
+    navigate("/login");
+    window.location.reload();
+    setSideBar(true);
+  };
+
+  const handlePopup = () => {
+    setPopup(!popup);
   };
 
   return (
-    <div>
+    <div style={{ position: "sticky", zIndex: "1", top: "0" }}>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
@@ -126,6 +135,13 @@ export default function PrimarySearchAppBar({ handleView }) {
             >
               <HomeIcon />
             </IconButton>
+            <SideBar
+              handleView={handleView}
+              logout={logout}
+              firstname={firstname}
+              lastname={lastname}
+              img={img}
+            />
             <Typography
               className="cursor"
               onClick={() => {
@@ -160,13 +176,14 @@ export default function PrimarySearchAppBar({ handleView }) {
                 <SearchIcon
                   onClick={() => {
                     setSideBar(true);
-                    handleView("search", input);
+                    handleView("search", null, input);
                     setInput("");
                   }}
                 />
               </SearchIconWrapper>
               <StyledInputBase
                 placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
                 value={input}
                 onChange={(e) => {
                   setInput(e.target.value);
@@ -193,6 +210,19 @@ export default function PrimarySearchAppBar({ handleView }) {
                   />
                 </Badge>
               </IconButton>
+              <IconButton
+                size="large"
+                color="inherit"
+                onClick={() => {
+                  handlePopup();
+                }}
+                className="moreiconmain"
+              >
+                <Badge color="error">
+                  <CommentOutlinedIcon />
+                </Badge>
+              </IconButton>
+              <MessagePopup popup={popup} />
               <IconButton
                 size="large"
                 color="inherit"

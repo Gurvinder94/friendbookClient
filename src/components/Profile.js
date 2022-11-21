@@ -1,37 +1,64 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import axios from "../server";
+import avatar from "../images/avatar.svg";
+import CircularProgress from "@mui/material/CircularProgress";
+function Profile({ fetch, username, firstname, lastname, img, hideButton }) {
+  const [image, setImage] = useState(img);
+  const [loading, setLoading] = useState(false);
 
-function Profile() {
-  const [data, setData] = useState();
-  const navigate = useNavigate();
-  const fetch = async () => {
-    return await axios.get("/isAuthenticate", { withCredentials: true });
+  const handleFileUpload = async (e) => {
+    setLoading(true);
+    const file = e.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = async () => {
+      await axios.post("/postProfilePic", {
+        username,
+        image: fileReader.result,
+      });
+      await fetch();
+      setLoading(false);
+      setImage(fileReader.result);
+    };
   };
-  useEffect(() => {
-    fetch().then((res) => {
-      console.log(res);
-      if (res.data === "not logged in") {
-        navigate("/login");
-      }
-      setData(res.data[0]);
-    });
-  }, []);
-  if (!data) {
-    return <div>loading</div>;
-  }
-
   return (
     <div className="profile">
+      {loading && <CircularProgress className="loading" />}
       <div className="profileHead">
-        <div className="profileLogo">{data.firstname[0]}</div>
-        <div className="profileUsername">{data.username}</div>
+        <img
+          style={{ width: "56%", margin: "auto" }}
+          src={image ? image : avatar}
+          alt=""
+        />
+        <div
+          style={{
+            textAlign: "center",
+            position: "absolute",
+            bottom: "-8vw",
+            left: "calc(50% - 5.5vw)",
+          }}
+        >
+          <div className="profileLogo">{firstname[0]}</div>
+          {/* <div className="profileUsername">{username}</div> */}
+        </div>
+      </div>
+      <div
+        className="input"
+        style={hideButton ? { display: "none" } : { display: "block" }}
+      >
+        <input
+          onChange={(e) => handleFileUpload(e)}
+          type="file"
+          name="upload_file"
+          accept="image/*"
+          id="file"
+        />
+        <label htmlFor="file">Upload Profile image</label>
       </div>
       <hr></hr>
-      <div className="profileName">{`Firstname: ${data.firstname}`}</div>
+      <div className="profileName">{`Firstname: ${firstname}`}</div>
 
-      <div className="profileName">{`Lastname: ${data.lastname}`}</div>
-      <hr></hr>
+      <div className="profileName">{`Lastname: ${lastname}`}</div>
     </div>
   );
 }
