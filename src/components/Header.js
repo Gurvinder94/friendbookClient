@@ -108,7 +108,7 @@ export default function PrimarySearchAppBar({
   const logout = async () => {
     await axios.get("/logout");
     navigate("/login");
-    window.location.reload();
+    // window.location.reload();
     setSideBar(true);
   };
 
