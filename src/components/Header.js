@@ -106,9 +106,9 @@ export default function PrimarySearchAppBar({
     } else setSideBar(true);
   };
   const logout = async () => {
-    await axios.get("/logout");
+    await axios.post("/logout");
     navigate("/login");
-    // window.location.reload();
+    window.location.reload();
     setSideBar(true);
   };
 
